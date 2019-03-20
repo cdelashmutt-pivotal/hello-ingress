@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: hello-node
+  name: hello-node-service
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: hello-node
+  type: ClusterIP
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: hello-node-ingress
+spec:
+  rules:
+  - host: foobar.domain
+    http:
+      paths:
+      - backend:
+          serviceName: hello-node-service
+          servicePort: 8080
